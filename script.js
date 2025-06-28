@@ -30,21 +30,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     pokeName.classList.add("name");
     //устанавливаем контент
     pokeImg.src = img;
-    pokeId.textContent = id;
+    pokeId.textContent = `ID/${id}`;
     pokeName.textContent = name;
 
     //Создание структуры
-    // card.appendChild(cardT);
-    // card.appendChild(cardB);
-    // cardT.appendChild(pokeImg);
-    // cardT.appendChild(pokeId);
-    // cardB.appendChild(pokeName);
-    // grid.appendChild(card);
+    card.appendChild(cardT);
+    card.appendChild(cardB);
+    cardT.appendChild(pokeImg);
+    cardT.appendChild(pokeId);
+    cardB.appendChild(pokeName);
+    grid.appendChild(card);
   }
 
   createCard(
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png",
     65,
+    "Artem"
+  );
+
+  createCard(
+    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1025.png",
+    1025,
     "Artem"
   );
 });
