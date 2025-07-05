@@ -6,6 +6,8 @@
 //     });
 //   });
 
+const pokemons = [];
+
 document.addEventListener("DOMContentLoaded", async () => {
   function createCard(img, id, name) {
     //выбераем узел grid
@@ -42,15 +44,44 @@ document.addEventListener("DOMContentLoaded", async () => {
     grid.appendChild(card);
   }
 
-  createCard(
-    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png",
-    65,
-    "Artem"
-  );
+  async function getPokemons() {
+    let pokemons = [];
+    const response = await fetch(
+      "https://pokeapi.co/api/v2/pokemon?offset=0&limit=1025"
+    );
+    const data = await response.json();
 
-  createCard(
-    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1025.png",
-    1025,
-    "Artem"
-  );
+    const pokemonPromises = data.results.map(async (element) => {
+      const pokemonResponse = await fetch(element.url);
+      const pokemonInfo = await pokemonResponse.json();
+      const name = pokemonInfo.name;
+      const image = pokemonInfo.sprites.front_default;
+      const id = pokemonInfo.id;
+      const types = pokemonInfo.types;
+      const speciesResponse = await fetch(
+        `https://pokeapi.co/api/v2/pokemon-species/${id}/`
+      );
+      const speciesInfo = await speciesResponse.json();
+      const evolution = speciesInfo.evolves_from_species;
+      return {
+        img: image,
+        id: id,
+        name: name,
+        type: types,
+        evolution: evolution,
+      };
+    });
+    pokemons = await Promise.all(pokemonPromises);
+    return pokemons;
+  }
+
+  async function drawGrid() {
+    const pokemonsToDraw = await getPokemons();
+
+    pokemonsToDraw.forEach((pokemon) => {
+      createCard(pokemon.img, pokemon.id, pokemon.name);
+    });
+  }
+
+  drawGrid();
 });
