@@ -9,7 +9,7 @@
 const pokemons = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
-  function createCard(img, id, name) {
+  function createCard(img, id, name, types, evo) {
     //выбераем узел grid
     const grid = document.getElementById("grid");
 
@@ -20,6 +20,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pokeImg = document.createElement("img");
     const pokeId = document.createElement("div");
     const pokeName = document.createElement("h2");
+    const pokeTypes = document.createElement("ul");
+    const pokeEvo = document.createElement("");
     // const pokeType = document.createElement("div");
 
     //назначаем классы узлам
@@ -30,10 +32,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     pokeImg.classList.add("image");
     pokeId.classList.add("id");
     pokeName.classList.add("name");
+    pokeTypes.classList.add("type");
+
     //устанавливаем контент
     pokeImg.src = img;
     pokeId.textContent = `ID/${id}`;
     pokeName.textContent = name;
+    pokeTypes.textContent = types;
 
     //Создание структуры
     card.appendChild(cardT);
@@ -42,6 +47,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     cardT.appendChild(pokeId);
     cardB.appendChild(pokeName);
     grid.appendChild(card);
+    cardB.appendChild(types);
+
+    //ONLY EVO
+    pokeEvo.classList.add("evo");
+    pokeEvo.textContent - evo;
+    cardB.appendChild(evo);
   }
 
   async function getPokemons() {
