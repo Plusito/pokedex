@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pokeId = document.createElement("div");
     const pokeName = document.createElement("h2");
     const pokeTypes = document.createElement("ul");
-    const pokeEvo = document.createElement("");
+
     // const pokeType = document.createElement("div");
 
     //назначаем классы узлам
@@ -32,13 +32,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     pokeImg.classList.add("image");
     pokeId.classList.add("id");
     pokeName.classList.add("name");
-    pokeTypes.classList.add("type");
+    pokeTypes.classList.add("types");
 
     //устанавливаем контент
     pokeImg.src = img;
     pokeId.textContent = `ID/${id}`;
     pokeName.textContent = name;
-    pokeTypes.textContent = types;
 
     //Создание структуры
     card.appendChild(cardT);
@@ -46,19 +45,38 @@ document.addEventListener("DOMContentLoaded", async () => {
     cardT.appendChild(pokeImg);
     cardT.appendChild(pokeId);
     cardB.appendChild(pokeName);
+
+    types.forEach((t) => {
+      const type = document.createElement("li");
+      type.textContent = t.type.name;
+      pokeTypes.appendChild(type);
+    });
+
+    cardB.appendChild(pokeTypes);
     grid.appendChild(card);
-    cardB.appendChild(types);
 
     //ONLY EVO
-    pokeEvo.classList.add("evo");
-    pokeEvo.textContent - evo;
-    cardB.appendChild(evo);
+    if (evo != null) {
+      const pokeEvo = document.createElement("div");
+      const evoFrom = document.createElement("p");
+      const evoName = document.createElement("h2");
+
+      pokeEvo.classList.add("evo");
+
+      evoFrom.textContent = "Evoluciona de:";
+      evoName.textContent = evo;
+
+      pokeEvo.appendChild(evoFrom);
+      pokeEvo.appendChild(evoName);
+
+      cardB.appendChild(pokeEvo);
+    }
   }
 
   async function getPokemons() {
     let pokemons = [];
     const response = await fetch(
-      "https://pokeapi.co/api/v2/pokemon?offset=0&limit=1025"
+      "https://pokeapi.co/api/v2/pokemon?offset=0&limit=20"
     );
     const data = await response.json();
 
@@ -73,13 +91,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         `https://pokeapi.co/api/v2/pokemon-species/${id}/`
       );
       const speciesInfo = await speciesResponse.json();
-      const evolution = speciesInfo.evolves_from_species;
+      const evolution = speciesInfo.evolves_from_species?.name || null;
       return {
         img: image,
         id: id,
         name: name,
-        type: types,
-        evolution: evolution,
+        types: types,
+        evo: evolution,
       };
     });
     pokemons = await Promise.all(pokemonPromises);
@@ -90,7 +108,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const pokemonsToDraw = await getPokemons();
 
     pokemonsToDraw.forEach((pokemon) => {
-      createCard(pokemon.img, pokemon.id, pokemon.name);
+      createCard(
+        pokemon.img,
+        pokemon.id,
+        pokemon.name,
+        pokemon.types,
+        pokemon.evo
+      );
     });
   }
 
