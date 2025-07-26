@@ -1,11 +1,3 @@
-// fetch("https://pokeapi.co/api/v2/pokemon")
-//   .then((result) => result.json())
-//   .then((pokemons) => {
-//     pokemons.results.forEach((pokemon) => {
-//       console.log(pokemon.name);
-//     });
-//   });
-
 const pokemons = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -37,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     //устанавливаем контент
     pokeImg.src = img;
     pokeId.textContent = `ID/${id}`;
-    pokeName.textContent = name;
+    pokeName.textContent = name.charAt(0).toUpperCase() + evo.slice(1);
 
     //Создание структуры
     card.appendChild(cardT);
@@ -64,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       pokeEvo.classList.add("evo");
 
       evoFrom.textContent = "Evoluciona de:";
-      evoName.textContent = evo;
+      evoName.textContent = evo.charAt(0).toUpperCase() + evo.slice(1);
 
       pokeEvo.appendChild(evoFrom);
       pokeEvo.appendChild(evoName);
