@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     //устанавливаем контент
     pokeImg.src = img;
     pokeId.textContent = `ID/${id}`;
-    pokeName.textContent = name.charAt(0).toUpperCase() + evo.slice(1);
+    pokeName.textContent = name.charAt(0).toUpperCase() + name.slice(1);
 
     //Создание структуры
     card.appendChild(cardT);
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       pokeEvo.classList.add("evo");
 
       evoFrom.textContent = "Evoluciona de:";
-      evoName.textContent = evo.charAt(0).toUpperCase() + evo.slice(1);
+      evoName.textContent = evo;
 
       pokeEvo.appendChild(evoFrom);
       pokeEvo.appendChild(evoName);
